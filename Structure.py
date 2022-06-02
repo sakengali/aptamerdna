@@ -11,6 +11,7 @@ class Structure(object):
     def __init__(self, residue_names, residue_length=None,
                     rotating_elements=None, backbone_elements=None, connect=None, 
                     residue_path=None, alias=None):
+
         self.residue_names = residue_names
         self.residue_path = residue_path
         self.init_string = """
@@ -36,7 +37,7 @@ class Structure(object):
             for index, residue in enumerate(self.residue_names):
                 self.connect[residue] = connect[index]
 
-        print("(mb make a mistake here:) Residue names: ", self.residue_names)
+        print("Residue names: ", self.residue_names)
         self.alias = defaultdict(lambda : None)
         if self.residue_names:
             for residue_name in self.residue_names:
@@ -53,8 +54,9 @@ class Structure(object):
         self.rotating_elements = defaultdict(lambda : None)
         for name in residue_names:
             self.rotating_elements[name] = [None]
-        
-	#print("rotating_elements? "+str(rotating_elements==None))
+
+ 
+	    #print("rotating_elements? "+str(rotating_elements==None))
 
         if rotating_elements:
             for residue, start, bond, end in rotating_elements:
@@ -114,6 +116,8 @@ class Structure(object):
     def translate(self, sequence):
         sequence_array = sequence.split(' ')
         if len(sequence_array) == 1:
+            #print("self.alias: ", self.alias)
+            #print("sequence_array: ", self.alias[sequence_array[0]])
             return self.alias[sequence_array[0]][0]
         else:
             return " ".join([self.alias[sequence_array[0]][1]]

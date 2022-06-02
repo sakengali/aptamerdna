@@ -265,7 +265,7 @@ class Complex(object):
             
             #create system 
             self.system = self.prmtop.createSystem(nonbondedCutoff=5*unit.angstrom, nonbondedMethod=app.NoCutoff,
-                                                   constraints=None, implicitSolvent=app.OBC1)
+                                                   constraints=None, implicitSolvent=app.OBC2)
             self.simulation = app.Simulation(self.topology, self.system, self.integrator)
         else:
             raise ValueError('Empty Complex! CANNOT build!')

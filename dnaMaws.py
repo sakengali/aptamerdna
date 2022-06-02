@@ -85,16 +85,24 @@ output.write("Number of further steps: {0} (sequence length = )\n".format(N_NTID
 output.write("Value of beta: {0}\n".format(BETA))
 output.write("Start time: {0}\n".format(str(datetime.now())))
 
-#Build Structure-object for DNA residues
-RNA = XMLStructure("RNA.xml")
+#Build Structure-object for RNA residues
+#RNA = XMLStructure("RNA.xml")
 
 #Changed forcefield to ff14SB (default when creating amber files)
 
 #Instantiate the Complex for further computation
 cpx = Complex("leaprc.ff14SB")
 
-#Add an empty Chain to the Complex, of structure DNA
-cpx.add_chain('', RNA)
+#Add an empty Chain to the Complex, of structure RNA -- RNA not used
+#cpx.add_chain('', RNA)
+
+#modified by iGEM NU
+#the same for DNA aptamer:
+#structure
+DNA = XMLStructure("DNA.xml")
+#chain
+cpx.add_chain("G C A T", DNA)
+
 
 #Add a chain to the complex using a pdb file (e.g. "xylanase.pdb")
 cpx.add_chain_from_PDB(PDB_PATH,parameterized=True)
@@ -122,7 +130,7 @@ best_positions = None
 output.write("Initialized succesfully!\n")
 
 #for each nucleotide in GATC
-for ntide in 'GAUC':
+for ntide in ["DGN", "DAN", "DTN", "DCN"]:
     output.write("{0}: starting initial step for '{1}'\n".format(str(datetime.now()),ntide))
     energies = []
     free_E = None
@@ -160,7 +168,7 @@ for ntide in 'GAUC':
         #Compare to lowest energy, if lowest...
         if free_E == None or energy < free_E:
             #Tell
-            print(f"First: ntide: {ntide}/GAUC; chunk: {i+1}/5000; energy: {energy}")
+            print(f"First: ntide: {ntide}/GATC; chunk: {i+1}/5000; energy: {energy}")
             #Set free energy to energy
             free_E = energy
             #Remember positions
@@ -200,7 +208,7 @@ for i in range(N_NTIDES):
     best_old_sequence = best_sequence
     best_old_positions = best_positions[:]
     best_entropy = None
-    for ntide in 'GAUC':
+    for ntide in ["DGN", "DAN", "DTN", "DCN"]:
         #For append nucleotide or prepend nucleotide
         for append in [True, False]:
             energies = []
@@ -253,7 +261,7 @@ for i in range(N_NTIDES):
                 energy = complex.get_energy()[0]
                 #Check if best
                 if free_E == None or energy < free_E:
-                    print(f"N_NTIDE: {i+2}/{N_NTIDES};  ntide: {ntide}/GAUC; chunk: {k+1}/5000; energy: {energy}")
+                    print(f"N_NTIDE: {i+2}/{N_NTIDES};  ntide: {ntide}/GATC; chunk: {k+1}/5000; energy: {energy}")
                     free_E = energy
                     position = complex.positions[:]
                 #Remember energies
