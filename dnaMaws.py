@@ -180,10 +180,10 @@ for ntide in ["DGN", "DAN", "DTN", "DCN"]:
     #Calculate entropy
     entropy = S(energies, beta=BETA)
 
-    #Performing outputs
-    pdblog = open("{0}_1_{1}.pdb".format(JOB_NAME,ntide),"w")
-    app.PDBFile.writeModel(copy.deepcopy(complex.topology), position[:], file=pdblog, modelIndex=1)
-    pdblog.close()
+    #Performing outputs - commented by NU iGEM
+    #pdblog = open("{0}_1_{1}.pdb".format(JOB_NAME,ntide),"w")
+    #app.PDBFile.writeModel(copy.deepcopy(complex.topology), position[:], file=pdblog, modelIndex=1)
+    #pdblog.close()
 
     entropyLog.write("SEQUENCE: {0} ENTROPY: {1} ENERGY: {2}\n".format(aptamer.alias_sequence, entropy, free_E))
     #Check if best ...
@@ -193,11 +193,12 @@ for ntide in ["DGN", "DAN", "DTN", "DCN"]:
         best_positions = position[:]
         best_topology = copy.deepcopy(complex.topology)
 
-app.PDBFile.writeModel(best_topology, best_positions, file=step, modelIndex=1)
+#commented by NU iGEM
+#app.PDBFile.writeModel(best_topology, best_positions, file=step, modelIndex=1)
 #Output best as well
-pdblog = open("{0}_best_1_{1}.pdb".format(JOB_NAME,ntide),"w")
-app.PDBFile.writeModel(best_topology, best_positions, file=pdblog, modelIndex=1)
-pdblog.close()
+#pdblog = open("{0}_best_1_{1}.pdb".format(JOB_NAME,ntide),"w")
+#app.PDBFile.writeModel(best_topology, best_positions, file=pdblog, modelIndex=1)
+#pdblog.close()
 
 output.write("{0}: Completed first step. Selected nucleotide: {1}\n".format(str(datetime.now()), best_sequence))
 output.write("{0}: Starting further steps to append {1} nucleotides\n".format(str(datetime.now()), N_NTIDES))
@@ -271,10 +272,10 @@ for i in range(N_NTIDES):
 
             entropy = S(energies, beta=BETA)
 
-            #outputs
-            pdblog = open("{0}_{1}_{2}.pdb".format(JOB_NAME, i+2, ntide), "w")
-            app.PDBFile.writeModel(copy.deepcopy(complex.topology), position[:], file=pdblog, modelIndex=1)
-            pdblog.close()
+            #outputs - commented by NU iGEM
+            #pdblog = open("{0}_{1}_{2}.pdb".format(JOB_NAME, i+2, ntide), "w")
+            #app.PDBFile.writeModel(copy.deepcopy(complex.topology), position[:], file=pdblog, modelIndex=1)
+            #pdblog.close()
 
             entropyLog.write("SEQUENCE: {0} ENTROPY: {1} ENERGY: {2}\n".format(aptamer.alias_sequence, entropy, free_E))
             #Choose best
@@ -283,12 +284,14 @@ for i in range(N_NTIDES):
                 best_positions = position[:]
                 best_sequence = aptamer.alias_sequence
                 best_topology = copy.deepcopy(complex.topology)
-    app.PDBFile.writeModel(best_topology, best_positions, file=step, modelIndex=1)
+                
+    #commented by NU iGEM
+    #app.PDBFile.writeModel(best_topology, best_positions, file=step, modelIndex=1)
     #Output best as well
-    output.write("{0}: Completed step {1}. Selected sequence: {2}\n".format(str(datetime.now()), i+2, best_sequence))
-    pdblog = open("{0}_best_{1}_{2}.pdb".format(JOB_NAME, i+2, ntide),"w")
-    app.PDBFile.writeModel(best_topology, best_positions, file=pdblog, modelIndex=1)
-    pdblog.close()
+    #output.write("{0}: Completed step {1}. Selected sequence: {2}\n".format(str(datetime.now()), i+2, best_sequence))
+    #pdblog = open("{0}_best_{1}_{2}.pdb".format(JOB_NAME, i+2, ntide),"w")
+    #app.PDBFile.writeModel(best_topology, best_positions, file=pdblog, modelIndex=1)
+    #pdblog.close()
 
     #also print it: 
     print(f"Completed step {i+2}. Selected sequence: {best_sequence}")
